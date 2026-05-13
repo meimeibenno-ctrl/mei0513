@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>山城泥研 | 苗栗手作陶藝</title>
+    <!-- 引入字體 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400&display=swap" rel="stylesheet">
+    <!-- 引入 Lucide Icons (SVG 圖標庫) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --bg-color: #fcfaf7;
+            --clay-primary: #a68b7c;
+            --clay-light: #eaddd5;
+            --clay-dark: #5d524a;
+            --accent: #d4a373;
+            --text-main: #2c2927;
+            --white: #ffffff;
+            --transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            --shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            font-family: 'Noto Sans TC', sans-serif;
+            color: var(--text-main);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 { 
+            font-family: 'Noto Serif TC', serif; 
+            font-weight: 700;
+        }
+
+        /* 導覽列 */
+        nav {
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            background: rgba(252, 250, 247, 0.85);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(166, 139, 124, 0.1);
+        }
+
+        .logo-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo { 
+            font-size: 1.4rem; 
+            color: var(--clay-dark); 
+            letter-spacing: 3px; 
+            font-weight: 700;
+        }
+
+        .logo-sub {
+            font-size: 0.6rem;
+            letter-spacing: 4px;
+            color: var(--clay-primary);
+        }
+
+        /* Hero 視覺區 */
+        .hero {
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 10%;
+            background: linear-gradient(to bottom, transparent, #f0ede9);
+        }
+
+        .hero-tag {
+            font-size: 0.9rem;
+            letter-spacing: 5px;
+            color: var(--clay-primary);
+            margin-bottom: 1rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s forwards 0.2s;
+        }
+
+        .hero h1 { 
+            font-size: clamp(2.5rem, 8vw, 4rem); 
+            margin-bottom: 1.5rem; 
+            color: var(--clay-dark);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s forwards 0.5s;
+        }
+
+        .hero p { 
+            font-size: 1.1rem; 
+            color: #666; 
+            max-width: 600px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s forwards 0.8s;
+        }
+
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 商品列表 */
+        .section-title {
+            text-align: center;
+            margin: 4rem 0 2rem;
+            font-size: 2rem;
+            color: var(--clay-dark);
+        }
+
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 0 2rem 6rem; 
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 1rem;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 30px 60px rgba(166, 139, 124, 0.15);
+        }
+
+        .product-img-wrapper {
+            width: 100%;
+            height: 320px;
+            border-radius: 18px;
+            overflow: hidden;
+            background: #f0f0f0;
+            position: relative;
+        }
+
+        .product-img {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            background-size: cover;
+            background-position: center;
+        }
+
+        .card:hover .product-img {
+            transform: scale(1.1);
+        }
+
+        .card-content {
+            padding: 1.5rem 0.5rem;
+        }
+
+        .card h3 { 
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem; 
+            color: var(--clay-dark); 
+        }
+
+        .price { 
+            color: var(--accent); 
+            font-weight: 700; 
+            font-size: 1.1rem;
+            margin-bottom: 1.2rem; 
+        }
+
+        .btn-add {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid var(--clay-light);
+            background: transparent;
+            color: var(--clay-dark);
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+
+        .btn-add:hover { 
+            background: var(--clay-dark); 
+            color: white;
+            border-color: var(--clay-dark);
+        }
+
+        /* 浮動購物車按鈕 */
+        .cart-trigger {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--clay-dark);
+            color: white;
+            padding: 1rem 1.8rem;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 15px 35px rgba(93, 82, 74, 0.3);
+            z-index: 900;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: var(--transition);
+        }
+
+        .cart-trigger:hover {
+            transform: scale(1.05);
+            background: #4a413a;
+        }
+
+        .cart-badge {
+            background: var(--accent);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+        }
+
+        /* 模態視窗 (Modal) */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(44, 41, 39, 0.6);
+            backdrop-filter: blur(5px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 1rem;
+        }
+
+        .modal-content {
+            background: var(--bg-color);
+            width: 100%;
+            max-width: 500px;
+            border-radius: 30px;
+            padding: 2.5rem;
+            position: relative;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.2);
+            animation: modalIn 0.5s var(--transition);
+        }
+
+        @keyframes modalIn {
+            from { opacity: 0; transform: translateY(30px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .checkout-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px dashed #ddd;
+        }
+
+        .checkout-total {
+            font-size: 1.4rem;
+            font-weight: 700;
+            text-align: right;
+            margin: 1.5rem 0;
+            color: var(--clay-dark);
+        }
+
+        form input, form textarea {
+            width: 100%;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            font-family: inherit;
+        }
+
+        .btn-confirm {
+            width: 100%;
+            padding: 1.2rem;
+            background: var(--clay-dark);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .btn-confirm:hover {
+            background: var(--accent);
+        }
+
+        /* 響應式優化 */
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 2.2rem; }
+            .modal-content { padding: 1.5rem; }
+            nav { padding: 1rem 5%; }
+            .cart-trigger { 
+                bottom: 1.5rem; 
+                right: 1rem; 
+                left: 1rem; 
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo-group">
+            <span class="logo">山城泥研</span>
+            <span class="logo-sub">MIAOLI EARTHENWARE</span>
+        </div>
+        <div style="font-size: 0.9rem; color: var(--clay-dark); font-weight: 600;">工坊預約</div>
+    </nav>
+
+    <section class="hero">
+        <span class="hero-tag">傳統 × 生活 × 美學</span>
+        <h1>揉入山城的溫度</h1>
+        <p>苗栗的山、泥土的香。每一件作品，都經過指尖與泥土的細膩對話，呈現最圓潤自然的生活美學。</p>
+    </section>
+
+    <h2 class="section-title">手作器物</h2>
+
+    <div class="container">
+        <div class="grid" id="product-grid">
+            <!-- 由 JS 渲染商品 -->
+        </div>
+    </div>
+
+    <!-- 購物車懸浮按鈕 -->
+    <div class="cart-trigger" id="cart-btn" onclick="openModal()">
+        <i data-lucide="shopping-bag" size="20"></i>
+        <span>結帳清單</span>
+        <span class="cart-badge" id="cart-count">0</span>
+    </div>
+
+    <!-- 結帳 Modal -->
+    <div class="modal-overlay" id="checkout-modal">
+        <div class="modal-content">
+            <div class="close-modal" onclick="closeModal()">
+                <i data-lucide="x"></i>
+            </div>
+            <h3 style="margin-bottom: 1.5rem;">預約結帳清單</h3>
+            
+            <div id="cart-list" style="max-height: 200px; overflow-y: auto; margin-bottom: 1rem;">
+                <!-- 購物清單 -->
+            </div>
+
+            <div class="checkout-total" id="checkout-total">
+                總計: NT$ 0
+            </div>
+
+            <form id="order-form" onsubmit="handleOrder(event)">
+                <input type="text" placeholder="收件人姓名" required>
+                <input type="tel" placeholder="聯絡電話" required>
+                <textarea placeholder="備註（如：希望配送時段）" rows="3"></textarea>
+                <button type="submit" class="btn-confirm">確認預約訂購</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // 商品資料
+        const products = [
+            { id: 1, name: "圓潤手捏茶杯", price: 680, color: "#eaddd5", label: "手捏質感" },
+            { id: 2, name: "晨曦系列花器", price: 1200, color: "#d5dad4", label: "限量品" },
+            { id: 3, name: "大地色平盤組", price: 950, color: "#d5d9e0", label: "日常食具" },
+            { id: 4, name: "柴燒側把壺", price: 3200, color: "#cbd1c5", label: "大師作" }
+        ];
+
+        let cart = [];
+
+        // 初始化：渲染商品
+        function init() {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = products.map(p => `
+                <div class="card">
+                    <div class="product-img-wrapper">
+                        <div class="product-img" style="background-color: ${p.color}">
+                            <span style="color: rgba(0,0,0,0.2); font-weight: 700;"></span>
+                        </div>
+                        <div style="position: absolute; top: 1rem; left: 1rem; background: white; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; color: var(--clay-primary);">
+                            ${p.label}
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <h3>${p.name}</h3>
+                        <p class="price">NT$ ${p.price.toLocaleString()}</p>
+                        <button class="btn-add" onclick="addToCart(${p.id})">
+                            <i data-lucide="plus" size="18"></i>
+                            加入購物車
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            
+            lucide.createIcons();
+        }
+
+        // 加入購物車
+        function addToCart(id) {
+            const product = products.find(p => p.id === id);
+            cart.push(product);
+            updateUI();
+            
+            // 加入時的微互動
+            const btn = event.currentTarget;
+            btn.style.backgroundColor = "var(--clay-primary)";
+            btn.style.color = "white";
+            btn.innerHTML = `<i data-lucide="check" size="18"></i> 已加入`;
+            lucide.createIcons();
+
+            setTimeout(() => {
+                btn.style.backgroundColor = "transparent";
+                btn.style.color = "var(--clay-dark)";
+                btn.innerHTML = `<i data-lucide="plus" size="18"></i> 加入購物車`;
+                lucide.createIcons();
+            }, 1000);
+        }
+
+        // 更新 UI
+        function updateUI() {
+            document.getElementById('cart-count').innerText = cart.length;
+            
+            // 渲染 Modal 內的清單
+            const cartList = document.getElementById('cart-list');
+            if (cart.length === 0) {
+                cartList.innerHTML = `<p style="text-align:center; color: #999;">購物車是空的</p>`;
+            } else {
+                cartList.innerHTML = cart.map((item, index) => `
+                    <div class="checkout-item">
+                        <span>${item.name}</span>
+                        <span>NT$ ${item.price.toLocaleString()}</span>
+                    </div>
+                `).join('');
+            }
+
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            document.getElementById('checkout-total').innerText = `總計: NT$ ${total.toLocaleString()}`;
+        }
+
+        // Modal 操作
+        function openModal() {
+            document.getElementById('checkout-modal').style.display = 'flex';
+            updateUI();
+        }
+
+        function closeModal() {
+            document.getElementById('checkout-modal').style.display = 'none';
+        }
+
+        // 訂單處理
+        function handleOrder(e) {
+            e.preventDefault();
+            if (cart.length === 0) return;
+
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            
+            // 模擬成功訊息
+            const modalContent = document.querySelector('.modal-content');
+            modalContent.innerHTML = `
+                <div style="text-align: center; padding: 2rem 0;">
+                    <div style="background: var(--clay-light); width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
+                        <i data-lucide="check" size="40" color="var(--clay-dark)"></i>
+                    </div>
+                    <h3 style="margin-bottom: 1rem;">預約訂購成功</h3>
+                    <p style="color: #666; margin-bottom: 2rem;">感謝您的支持，我們將盡快與您聯繫確認細節。</p>
+                    <button class="btn-confirm" onclick="location.reload()">回到首頁</button>
+                </div>
+            `;
+            lucide.createIcons();
+            cart = [];
+        }
+
+        init();
+    </script>
+</body>
+</html>
